@@ -1,0 +1,155 @@
+<!-- Assignment #3 - Joe Hladkowicz - 300723388 -->
+
+<!DOCTYPE html>
+	<html lang=en>
+		<head>
+			<meta charset=utf-8>
+			<title>Assignment 3</title>	
+			<link rel="stylesheet" href="css/assign3.css" />
+		</head>
+		<body>
+			<section id="game-container">
+				<canvas id="game" width='1300' height='800' class="titlescreen"></canvas>
+				<div id="arrow" class="arrow1"></div>
+				<div id="replay"></div>
+				<div id="winscreen"></div>
+				<div id="skip" class="skipIntro"></div>
+				<div id="shakeIntro"></div>
+				<div id="errIntro"></div>
+				<div id="ignignoktIntro"></div>
+				<div id="frylockIntro"></div>
+				<div id="moonEnd" class="moonEnd1"></div>
+				<div id="scoreboard">
+					<div class="level">LEVEL: <span id="level">1</span></div>
+					<div class="enemies">ENEMIES: <span id="enemies">20</span></div>
+					<div id="health" class="healthMeter">
+						<div class="healthAmount" style="width: 100%;"></div>
+					</div>
+					<div id="energy" class="energyMeter">
+						<div class="energyAmount" style="width: 100%;"></div>
+					</div>
+				</div>  
+			</section>
+			<div id="asset">
+				<img id="player" src="images/frylockR.png">
+				<img id="enemy" src="images/enemy.gif">
+				<img id="bullet" src="images/bullet.png">
+				<img id="largeEnemy" src="images/largeEnemy.gif">
+				<img id="err" src="images/err.png">
+				<img id="shake" src="images/shake.png">
+				<img id="ignignokt" src="images/ignignokt.png">
+				<img id="carl" src="images/carl.png">
+				<img id="meatwad" src="images/meatwadR.png">
+			</div>
+			<audio id="intro">
+				<source src="media/intro.mp3" />
+			</audio>
+			<audio id="laser">
+				<source src="media/laser.mp3" />
+			</audio>
+			<audio id="melee">
+				<source src="media/melee.mp3" />
+			</audio>
+			<audio id="errHit">
+				<source src="media/errHit.mp3" />
+			</audio>
+			<audio id="fryHit">
+				<source src="media/fryHit.mp3" />
+			</audio>
+			<audio id="lvl1background">
+				<source src="media/lvl1background.mp3" />
+			</audio>
+			<audio id="title">
+				<source src="media/title.mp3" />
+			</audio>
+			<audio id="lvl1end">
+				<source src="media/lvl1end.mp3" />
+			</audio>
+			<audio id="chirp">
+				<source src="media/chirp.mp3" />
+			</audio>
+			<audio id="lvl2start">
+				<source src="media/lvl2start.mp3" />
+			</audio>
+			<audio id="lvl2end">
+				<source src="media/lvl2end.mp3" />
+			</audio>
+			<audio id="lvl3start">
+				<source src="media/lvl3start.mp3" />
+			</audio>
+			<audio id="chirp2">
+				<source src="media/chirp2.mp3" />
+			</audio>
+			<audio id="gameend">
+				<source src="media/gameend.mp3" />
+			</audio>
+			<!-- SCRIPTS -->
+			<script src="js/jquery-2.0.0.min.js"></script>
+			<script src="js/protoclass.js"></script>
+			<script src='js/box2d/common/b2Settings.js'></script>
+			<script src='js/box2d/common/math/b2Vec2.js'></script>
+			<script src='js/box2d/common/math/b2Mat22.js'></script>
+			<script src='js/box2d/common/math/b2Math.js'></script>
+			<script src='js/box2d/collision/b2AABB.js'></script>
+			<script src='js/box2d/collision/b2Bound.js'></script>
+			<script src='js/box2d/collision/b2BoundValues.js'></script>
+			<script src='js/box2d/collision/b2Pair.js'></script>
+			<script src='js/box2d/collision/b2PairCallback.js'></script>
+			<script src='js/box2d/collision/b2BufferedPair.js'></script>
+			<script src='js/box2d/collision/b2PairManager.js'></script>
+			<script src='js/box2d/collision/b2BroadPhase.js'></script>
+			<script src='js/box2d/collision/b2Collision.js'></script>
+			<script src='js/box2d/collision/Features.js'></script>
+			<script src='js/box2d/collision/b2ContactID.js'></script>
+			<script src='js/box2d/collision/b2ContactPoint.js'></script>
+			<script src='js/box2d/collision/b2Distance.js'></script>
+			<script src='js/box2d/collision/b2Manifold.js'></script>
+			<script src='js/box2d/collision/b2OBB.js'></script>
+			<script src='js/box2d/collision/b2Proxy.js'></script>
+			<script src='js/box2d/collision/ClipVertex.js'></script>
+			<script src='js/box2d/collision/shapes/b2Shape.js'></script>
+			<script src='js/box2d/collision/shapes/b2ShapeDef.js'></script>
+			<script src='js/box2d/collision/shapes/b2BoxDef.js'></script>
+			<script src='js/box2d/collision/shapes/b2CircleDef.js'></script>
+			<script src='js/box2d/collision/shapes/b2CircleShape.js'></script>
+			<script src='js/box2d/collision/shapes/b2MassData.js'></script>
+			<script src='js/box2d/collision/shapes/b2PolyDef.js'></script>
+			<script src='js/box2d/collision/shapes/b2PolyShape.js'></script>
+			<script src='js/box2d/dynamics/b2Body.js'></script>
+			<script src='js/box2d/dynamics/b2BodyDef.js'></script>
+			<script src='js/box2d/dynamics/b2CollisionFilter.js'></script>
+			<script src='js/box2d/dynamics/b2Island.js'></script>
+			<script src='js/box2d/dynamics/b2TimeStep.js'></script>
+			<script src='js/box2d/dynamics/contacts/b2ContactNode.js'></script>
+			<script src='js/box2d/dynamics/contacts/b2Contact.js'></script>
+			<script src='js/box2d/dynamics/contacts/b2ContactConstraint.js'></script>
+			<script src='js/box2d/dynamics/contacts/b2ContactConstraintPoint.js'></script>
+			<script src='js/box2d/dynamics/contacts/b2ContactRegister.js'></script>
+			<script src='js/box2d/dynamics/contacts/b2ContactSolver.js'></script>
+			<script src='js/box2d/dynamics/contacts/b2CircleContact.js'></script>
+			<script src='js/box2d/dynamics/contacts/b2Conservative.js'></script>
+			<script src='js/box2d/dynamics/contacts/b2NullContact.js'></script>
+			<script src='js/box2d/dynamics/contacts/b2PolyAndCircleContact.js'></script>
+			<script src='js/box2d/dynamics/contacts/b2PolyContact.js'></script>
+			<script src='js/box2d/dynamics/b2ContactManager.js'></script>
+			<script src='js/box2d/dynamics/b2World.js'></script>
+			<script src='js/box2d/dynamics/b2WorldListener.js'></script>
+			<script src='js/box2d/dynamics/joints/b2JointNode.js'></script>
+			<script src='js/box2d/dynamics/joints/b2Joint.js'></script>
+			<script src='js/box2d/dynamics/joints/b2JointDef.js'></script>
+			<script src='js/box2d/dynamics/joints/b2DistanceJoint.js'></script>
+			<script src='js/box2d/dynamics/joints/b2DistanceJointDef.js'></script>
+			<script src='js/box2d/dynamics/joints/b2Jacobian.js'></script>
+			<script src='js/box2d/dynamics/joints/b2GearJoint.js'></script>
+			<script src='js/box2d/dynamics/joints/b2GearJointDef.js'></script>
+			<script src='js/box2d/dynamics/joints/b2MouseJoint.js'></script>
+			<script src='js/box2d/dynamics/joints/b2MouseJointDef.js'></script>
+			<script src='js/box2d/dynamics/joints/b2PrismaticJoint.js'></script>
+			<script src='js/box2d/dynamics/joints/b2PrismaticJointDef.js'></script>
+			<script src='js/box2d/dynamics/joints/b2PulleyJoint.js'></script>
+			<script src='js/box2d/dynamics/joints/b2PulleyJointDef.js'></script>
+			<script src='js/box2d/dynamics/joints/b2RevoluteJoint.js'></script>
+			<script src='js/box2d/dynamics/joints/b2RevoluteJointDef.js'></script>
+			<script src='js/assign3.js'></script>
+		</body>
+	</html>
